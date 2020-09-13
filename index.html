@@ -133,7 +133,7 @@
     </div>
 </div>
 
-<br>
+<br><br>
 
 <div id="contact" class = "w3-center" style="height: 600px;">
     <h1>Contact & HelpLine:</h1>
@@ -169,7 +169,7 @@
   var cnt = 0;
   var max_cnt = 10;
   // urlRef.limitToFirst(100)
-  urlRef.limitToFirst(100).on("value", function(snapshot) {
+  urlRef.on("value", function(snapshot) {
         console.log(snapshot);
         max_cnt = snapshot.numChildren();        
         snapshot.forEach(function(child) {
