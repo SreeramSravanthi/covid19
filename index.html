@@ -2,10 +2,10 @@
 <html>
 <head>
   <title>Covid19 care</title>
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
 <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-database.js"></script>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
@@ -100,8 +100,10 @@
 </select>
 </div>
 
-<div id="chart_div" class="chart"></div>
-<input id="save-pdf" class="w3-btn w3-green  w3-right-align" type="button" value="Save Chart" disabled />
+<div id="dashboard-div" class="w3-center" style="height: 100%;"></div>
+    <div id="chart_div" class="chart"></div>
+    <input id="save-pdf" class="w3-btn w3-green  w3-right-align" type="button" value="Save Chart" disabled />
+</div>
 
 <div id="notification-div" class="w3-center" style="height: 100%;">
     <h1>Notifications & advisories:</h1> 
@@ -302,7 +304,7 @@
                                 title: 'Deceased Count'
                                 
                             },
-                            // height: 600,
+                            height: 500,
                             // width: '100%',
                             title: title,
                             explorer: {
