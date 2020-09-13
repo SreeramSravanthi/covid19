@@ -101,8 +101,13 @@
 </div>
 
 <div id="dashboard-div" class="w3-center" style="height: 100%;"></div>
+<div class="w3-row">
+    <input id="from_date" class="w3-input w3-border w3-col s4 m4 l4" type="date" />
+    <input id="to_date" class="w3-input w3-border w3-col s4 m4 l4" type="date" />
+    <input id="save-pdf" class="w3-btn w3-green  w3-col s4 m4 l4" type="button" value="Save Chart" disabled />
+</div>
     <div id="chart_div" class="chart"></div>
-    <input id="save-pdf" class="w3-btn w3-green  w3-right-align" type="button" value="Save Chart" disabled />
+    <input id="save-pdf" class="w3-btn w3-blue w3-right-align" type="button" value="Save Chart" disabled />
 </div>
 
 <div id="notification-div" class="w3-center" style="height: 600px;">
@@ -169,7 +174,7 @@
   var cnt = 0;
   var max_cnt = 10;
   // urlRef.limitToFirst(100)
-  urlRef.on("value", function(snapshot) {
+  urlRef.limitToFirst(100).on("value", function(snapshot) {
         console.log(snapshot);
         max_cnt = snapshot.numChildren();        
         snapshot.forEach(function(child) {
