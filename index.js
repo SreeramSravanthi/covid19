@@ -18,7 +18,7 @@ get(url);
 function show_url(api_data) { 
     let tab = 
 		`<tr class="w3-dark-grey"> 
-		<th>Loc</th> 
+		<th>Location</th> 
 		<th>Number</th> 
 		</tr>`; 
 	

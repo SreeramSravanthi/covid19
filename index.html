@@ -21,7 +21,7 @@
     }
 </style>
 <div class="w3-top">
-    <div class="w3-bar w3-blue w3-xlarge">
+    <div class="w3-bar w3-blue w3-large">
       <a href="#" class="w3-bar-item w3-button">Deceased Dashboard</a>
       <a href="#notification-div" class="w3-bar-item w3-button">Notify & Advisories</a>
       <a href="#hosiptal-div" class="w3-bar-item w3-button">Hospitals Dashboard</a>
@@ -47,8 +47,8 @@
 <div id="dashboard-div" class="w3-center" style="height: 100%;"></div>
   <div id="chart_div" class="chart"></div>
   <div class="w3-row">
-    <input id="from_date" class="w3-input w3-border w3-col s4 m4 l4" type="date" value="2020-02-01"/>
-    <input id="to_date" class="w3-input w3-border w3-col s4 m4 l4" type="date" />
+    <input id="from_date" class="w3-input w3-border w3-col s4 m4 l4" type="date" value="2020-02-01" onchange="date_changed()"/>
+    <input id="to_date" class="w3-input w3-border w3-col s4 m4 l4" type="date" onchange="date_changed()"/>
     <input id="save-pdf" class="w3-btn w3-blue  w3-col s4 m4 l4" type="button" value="Save Chart" disabled />
   </div>
 </div>
@@ -108,18 +108,18 @@
 </select>
 </div>
 
-<div id="notification-div" class="w3-center" style="height: 600px;">
+<div id="notification-div" class="w3-center" style="height: 600px; ">
     <h1>Notifications & advisories:</h1> 
-    <div class="w3-responsive" style="height: 90%; ">
+    <div class="w3-responsive" style="height: 90%; width:80%; margin:auto;">
         <table id="employees" class="w3-table-all"></table> 
     </div>
 </div>
 
 <br><br>
 
-<div id="hosiptal-div" class = "w3-center" style="height: 600px;">
+<div id="hosiptal-div" class = "w3-center"  style="height: 600px;">
     <h1>Hospitals Dashboard:</h1>
-    <div class = "w3-responsive" style = "height : 90%">
+    <div class = "w3-responsive" style = "height : 90%; width:80%; margin:auto;">
         <table id="hospital" class="w3-table-all"></table> 
     </div>
 </div>
@@ -130,8 +130,8 @@
     <h1>Medical Colleges:</h1>
     <input class="w3-input w3-border w3-padding" type="text" 
             placeholder="Search for states or types..." id="medicalInput" 
-            style="margin-bottom: 5px;" onkeyup="medicalCollegesFilter()">
-    <div class = "w3-responsive" style = "height : 90%">
+            style="width:60%; margin:auto; margin-bottom: 5px;" onkeyup="medicalCollegesFilter()">
+    <div class = "w3-responsive" style = "height : 90%; width:80%; margin:auto;">
         <table id="hospital_medical" class="w3-table-all"></table> 
     </div>
 </div>
@@ -140,8 +140,8 @@
 
 <div id="contact" class = "w3-center" style="height: 600px;">
     <h1>Contact & HelpLine:</h1>
-    <div class = "w3-responsive" style = "height : 90%">
-        <table id="number" class="w3-table-all"></table> 
+    <div class = "w3-responsive" style = "height : 90%; width:80%; margin:auto;">
+        <table id="number" class="w3-table-all" ></table> 
     </div>
 </div>
 
@@ -194,6 +194,11 @@
         });
   });
 
+  function date_changed(){
+     //console.log("date_changed");
+      buttonShowClick();
+  }
+
 
     var container = document.getElementById('chart_div');
     var chart = "None";
@@ -221,7 +226,7 @@
 
     btnSave.addEventListener('click', function () {
       var doc = new jsPDF();
-      doc.addImage(chart.getImageURI(), 0, 0);
+      doc.addImage(chart.getImageURI(), 0,0);
       doc.save('chart.pdf');
     }, false);
   
@@ -230,6 +235,9 @@
         var age = document.getElementById("ageGroups").value;
         var gender = document.getElementById("gender").value;
         var fromAge=0, toAge=200;
+        var from_date_val = document.getElementById("from_date").value;
+        var to_date_val = document.getElementById("to_date").value;
+
         title = default_title;
         if(age != ""){
             fromAge = parseInt(age.split(",")[0]);
@@ -246,6 +254,9 @@
         }else{
             title = title + " (Gender: "+gender+")";
         }
+
+        title = title + " ("+ from_date_val + " to " + to_date_val + ")";
+
         var selected_records = [];
         for(var rec of all_records){
             if(gender != "All"){
@@ -280,17 +291,22 @@
             p[name]++;
             return p;
         }, {});
+        from_date_val = new Date(from_date_val);
+        to_date_val = new Date(to_date_val);        
         var st = "30/01/2020"; // sample
         var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
         parsed_records = [];
         for(var cur_date in counts){
             var dt = new Date(cur_date.replace(pattern,'$3-$2-$1'));
-            parsed_records.push([
-                dt, counts[cur_date]
-            ]);
+            if(dt>=from_date_val && dt<=to_date_val)
+                parsed_records.push([
+                    dt, counts[cur_date]
+                ]);
         }
+        
         return parsed_records;
     }
+
     function show_data(given_data){
         var data = new google.visualization.DataTable();
         data.addColumn('date', 'Date');
